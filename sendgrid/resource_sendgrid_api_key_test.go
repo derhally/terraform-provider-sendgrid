@@ -74,3 +74,42 @@ func testAccCheckSendgridAPIKeyExists(n string) resource.TestCheckFunc {
 		return nil
 	}
 }
+
+// Test creating an API key on behalf of a subuser using sub_user_on_behalf_of
+func TestAccSendgridAPIKeyOnBehalfOf(t *testing.T) {
+	username := "terraform-subuser-" + acctest.RandString(10)
+	email := username + "@example.com"
+	password := "TerraformTest123!"
+	keyName := "terraform-api-key-onbehalf-" + acctest.RandString(10)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckSendgridAPIKeyDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccCheckSendgridAPIKeyConfigOnBehalfOf(username, email, password, keyName),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckSendgridAPIKeyExists("sendgrid_api_key.onbehalf"),
+					resource.TestCheckResourceAttr("sendgrid_api_key.onbehalf", "sub_user_on_behalf_of", username),
+				),
+			},
+		},
+	})
+}
+
+func testAccCheckSendgridAPIKeyConfigOnBehalfOf(username, email, password, keyName string) string {
+	return fmt.Sprintf(`
+resource "sendgrid_subuser" "sub" {
+  username = "%s"
+  email    = "%s"
+  password = "%s"
+}
+
+resource "sendgrid_api_key" "onbehalf" {
+  name                  = "%s"
+  sub_user_on_behalf_of = sendgrid_subuser.sub.username
+  scopes                = ["mail.send", "sender_verification_eligible"]
+}
+`, username, email, password, keyName)
+}
