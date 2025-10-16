@@ -110,6 +110,10 @@ var (
 
 	// ErrFailedUpdatingSSOCertificate error displayed when an SSO certificate update request fails.
 	ErrFailedUpdatingSSOCertificate = errors.New("failed to update SSO certificate")
+
+	ErrWebhookSecurityPolicyIdRequired = errors.New("a webhook security policy id is required")
+
+	ErrFailedDeletingWebhookSecurityPolicy = errors.New("failed deleting webhook security policy")
 )
 
 type APIError struct {

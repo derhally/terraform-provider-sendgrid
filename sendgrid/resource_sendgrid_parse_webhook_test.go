@@ -104,6 +104,27 @@ func TestAccSendgridParseWebhookWithRateLimiting(t *testing.T) {
 	})
 }
 
+func TestAccSendgridParseWebhookWithSecurityPolicy(t *testing.T) {
+	hostname := "parse-security-policy-" + acctest.RandString(10) + ".example.com"
+	url := "https://security-policy-" + acctest.RandString(10) + ".com/parse"
+	policyId := acctest.RandString(32)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckSendgridParseWebhookDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccCheckSendgridParseWebhookConfigWithWebhookSecurityPolicy(hostname, url, policyId),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckSendgridParseWebhookExists("sendgrid_parse_webhook.security_policy"),
+					resource.TestCheckResourceAttr("sendgrid_parse_webhook.security_policy", "webhook_security_policy_id", policyId),
+				),
+			},
+		},
+	})
+}
+
 func testAccCheckSendgridParseWebhookDestroy(s *terraform.State) error {
 	c := testAccProvider.Meta().(*sendgrid.Client)
 
@@ -161,6 +182,18 @@ resource "sendgrid_parse_webhook" "rate_limit" {
 	}
 }
 `, hostname, url)
+}
+
+func testAccCheckSendgridParseWebhookConfigWithWebhookSecurityPolicy(hostname, url, policyId string) string {
+	return fmt.Sprintf(`
+resource "sendgrid_parse_webhook" "security_policy" {
+	hostname   = "%s"
+	url        = "%s"
+	spam_check = true
+	send_raw   = false
+	webhook_security_policy_id = "%s"
+}
+`, hostname, url, policyId)
 }
 
 func testAccCheckSendgridParseWebhookExists(n string) resource.TestCheckFunc {
