@@ -37,6 +37,16 @@ func resourceSendgridParseWebhook() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
+		CustomizeDiff: func(ctx context.Context, diff *schema.ResourceDiff, meta interface{}) error {
+			if diff.HasChange("webhook_security_policy_id") {
+				old, new := diff.GetChange("webhook_security_policy_id")
+				if old.(string) != "" && new.(string) == "" {
+					return nil
+				}
+			}
+			return nil
+		},
+
 		Schema: map[string]*schema.Schema{
 			"hostname": {
 				Type: schema.TypeString,
@@ -141,6 +151,19 @@ func resourceSendgridParseWebhookUpdate(ctx context.Context, d *schema.ResourceD
 
 func resourceSendgridParseWebhookDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*sendgrid.Client)
+
+	if securityPolicyId := d.Get("webhook_security_policy_id").(string); securityPolicyId != "" {
+		spamCheck := d.Get("spam_check").(bool)
+		sendRaw := d.Get("send_raw").(bool)
+
+		_, updateErr := sendgrid.RetryOnRateLimit(ctx, d, func() (interface{}, sendgrid.RequestError) {
+			return nil, c.UpdateParseWebhook(ctx, d.Id(), spamCheck, sendRaw, "")
+		})
+
+		if updateErr != nil {
+			return diag.FromErr(updateErr)
+		}
+	}
 
 	_, err := sendgrid.RetryOnRateLimit(ctx, d, func() (interface{}, sendgrid.RequestError) {
 		return c.DeleteParseWebhook(ctx, d.Id())
