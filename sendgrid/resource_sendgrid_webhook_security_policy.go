@@ -61,6 +61,7 @@ func resourceSendgridWebhookSecurityPolicy() *schema.Resource {
 				Type:        schema.TypeList,
 				Optional:    true,
 				MaxItems:    1,
+				ForceNew:    true,
 				Description: "OAuth configuration for webhook authentication. Can be used together with signature.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -94,6 +95,7 @@ func resourceSendgridWebhookSecurityPolicy() *schema.Resource {
 				Type:        schema.TypeList,
 				Optional:    true,
 				MaxItems:    1,
+				ForceNew:    true,
 				Description: "Signature configuration for webhook authentication. Can be used together with oauth.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
