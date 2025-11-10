@@ -113,6 +113,8 @@ var (
 
 	ErrWebhookSecurityPolicyIdRequired = errors.New("a webhook security policy id is required")
 
+	ErrFailedCreatingWebhookSecurityPolicy = errors.New("failed creating webhook security policy")
+
 	ErrFailedDeletingWebhookSecurityPolicy = errors.New("failed deleting webhook security policy")
 )
 

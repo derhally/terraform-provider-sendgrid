@@ -120,7 +120,7 @@ func (c *Client) CreateWebhookSecurityPolicy(ctx context.Context, name string, o
 	if statusCode >= http.StatusMultipleChoices {
 		return nil, RequestError{
 			StatusCode: statusCode,
-			Err:        fmt.Errorf("%w, status: %d, response: %s", ErrFailedCreatingParseWebhook, statusCode, respBody),
+			Err:        fmt.Errorf("%w, status: %d, response: %s", ErrFailedCreatingWebhookSecurityPolicy, statusCode, respBody),
 		}
 	}
 
