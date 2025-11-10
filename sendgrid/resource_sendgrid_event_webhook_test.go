@@ -100,6 +100,56 @@ func TestAccSendgridEventWebhookWithRateLimiting(t *testing.T) {
 	})
 }
 
+func TestAccSendgridEventWebhookWithFriendlyName(t *testing.T) {
+	url := "https://friendly-" + acctest.RandString(10) + ".com/webhook"
+	friendlyName := "Test Webhook " + acctest.RandString(5)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckSendgridEventWebhookDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccCheckSendgridEventWebhookConfigWithFriendlyName(url, friendlyName),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckSendgridEventWebhookExists("sendgrid_event_webhook.friendly"),
+					resource.TestCheckResourceAttr("sendgrid_event_webhook.friendly", "url", url),
+					resource.TestCheckResourceAttr("sendgrid_event_webhook.friendly", "enabled", "true"),
+					resource.TestCheckResourceAttr("sendgrid_event_webhook.friendly", "friendly_name", friendlyName),
+				),
+			},
+		},
+	})
+}
+
+func TestAccSendgridEventWebhookFriendlyNameUpdate(t *testing.T) {
+	url := "https://update-name-" + acctest.RandString(10) + ".com/webhook"
+	friendlyName := "Original Name " + acctest.RandString(5)
+	friendlyNameUpdated := "Updated Name " + acctest.RandString(5)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckSendgridEventWebhookDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccCheckSendgridEventWebhookConfigWithFriendlyName(url, friendlyName),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckSendgridEventWebhookExists("sendgrid_event_webhook.friendly"),
+					resource.TestCheckResourceAttr("sendgrid_event_webhook.friendly", "friendly_name", friendlyName),
+				),
+			},
+			{
+				Config: testAccCheckSendgridEventWebhookConfigWithFriendlyName(url, friendlyNameUpdated),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckSendgridEventWebhookExists("sendgrid_event_webhook.friendly"),
+					resource.TestCheckResourceAttr("sendgrid_event_webhook.friendly", "friendly_name", friendlyNameUpdated),
+				),
+			},
+		},
+	})
+}
+
 func testAccCheckSendgridEventWebhookDestroy(s *terraform.State) error {
 	c := testAccProvider.Meta().(*sendgrid.Client)
 
@@ -154,6 +204,21 @@ resource "sendgrid_event_webhook" "rate_limit" {
 	}
 }
 `, url)
+}
+
+func testAccCheckSendgridEventWebhookConfigWithFriendlyName(url, friendlyName string) string {
+	return fmt.Sprintf(`
+resource "sendgrid_event_webhook" "friendly" {
+	url           = "%s"
+	enabled       = true
+	friendly_name = "%s"
+	
+	bounce      = true
+	delivered   = true
+	open        = true
+	click       = true
+}
+`, url, friendlyName)
 }
 
 func testAccCheckSendgridEventWebhookExists(n string) resource.TestCheckFunc {

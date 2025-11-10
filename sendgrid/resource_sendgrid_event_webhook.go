@@ -6,6 +6,7 @@ Example Usage
 	resource "sendgrid_event_webhook" "default" {
 		enabled = true
 	    url = "https://foo.bar/sendgrid/inbound"
+	    friendly_name = "My Event Webhook"
 	    group_resubscribe = true
 	    delivered = true
 	    group_unsubscribe = true
@@ -36,6 +37,7 @@ import (
 
 func resourceSendgridEventWebhook() *schema.Resource { //nolint:funlen
 	return &schema.Resource{
+		Description:   "Manages SendGrid Event Webhook settings. Event Webhooks allow you to receive real-time notifications about email events such as deliveries, opens, clicks, bounces, and more.",
 		CreateContext: resourceSendgridEventWebhookPatch,
 		ReadContext:   resourceSendgridEventWebhookRead,
 		UpdateContext: resourceSendgridEventWebhookPatch,
@@ -53,6 +55,11 @@ func resourceSendgridEventWebhook() *schema.Resource { //nolint:funlen
 					"Any emails sent with the given hostname provided (whose MX records have been updated to point to SendGrid) " +
 					"will be eventd and POSTed to this URL.",
 				Required: true,
+			},
+			"friendly_name": {
+				Type:        schema.TypeString,
+				Description: "Friendly name for the webhook to help you identify it.",
+				Optional:    true,
 			},
 			"group_resubscribe": {
 				Type: schema.TypeBool,
@@ -172,6 +179,7 @@ func resourceSendgridEventWebhookPatch(ctx context.Context, d *schema.ResourceDa
 
 	enabled := d.Get("enabled").(bool)
 	url := d.Get("url").(string)
+	friendlyName := d.Get("friendly_name").(string)
 	groupResubscribe := d.Get("group_resubscribe").(bool)
 	delivered := d.Get("delivered").(bool)
 	groupUnsubscribe := d.Get("group_unsubscribe").(bool)
@@ -192,6 +200,7 @@ func resourceSendgridEventWebhookPatch(ctx context.Context, d *schema.ResourceDa
 			ctx,
 			enabled,
 			url,
+			friendlyName,
 			groupResubscribe,
 			delivered,
 			groupUnsubscribe,
@@ -239,6 +248,8 @@ func resourceSendgridEventWebhookRead(ctx context.Context, d *schema.ResourceDat
 	d.Set("enabled", webhook.Enabled)
 	//nolint:errcheck
 	d.Set("url", webhook.URL)
+	//nolint:errcheck
+	d.Set("friendly_name", webhook.FriendlyName)
 	//nolint:errcheck
 	d.Set("group_resubscribe", webhook.GroupResubscribe)
 	//nolint:errcheck

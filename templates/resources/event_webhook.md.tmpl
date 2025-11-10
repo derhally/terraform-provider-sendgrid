@@ -1,0 +1,58 @@
+---
+page_title: "{{.Name}} {{.Type}} - {{.ProviderName}}"
+subcategory: ""
+description: |-
+{{ .Description | plainmarkdown | trimspace | prefixlines "  " }}
+---
+
+# {{.Name}} ({{.Type}})
+
+{{ .Description | trimspace }}
+
+**Important Notes:**
+
+- There is only one event webhook per SendGrid account (or subuser)
+- The webhook cannot be deleted, only disabled
+- Event types require specific tracking settings to be enabled:
+  - `open` and `click` events require Open Tracking and Click Tracking
+  - `unsubscribe`, `group_resubscribe`, and `group_unsubscribe` require Subscription Tracking
+- Use `friendly_name` to help identify your webhook (available in SendGrid dashboard)
+- OAuth authentication is optional but recommended for enhanced security
+- Signature verification can be enabled for webhook request verification
+
+## Example Usage
+
+{{ tffile "examples/resources/sendgrid_event_webhook/resource.tf" }}
+
+{{ .SchemaMarkdown | trimspace }}
+
+## Additional Information
+
+### Event Types
+
+The following event types are available:
+
+- **delivered**: Message successfully delivered to receiving server
+- **processed**: Message received by SendGrid and ready for delivery  
+- **dropped**: Message not delivered (spam, invalid address, etc.)
+- **deferred**: Recipient's email server temporarily rejected message
+- **bounce**: Receiving server permanently rejected message
+- **open**: Recipient opened the HTML message (requires Open Tracking)
+- **click**: Recipient clicked a link (requires Click Tracking)
+- **spam_report**: Recipient marked message as spam
+- **unsubscribe**: Recipient clicked subscription management link
+- **group_unsubscribe**: Recipient unsubscribed from specific group
+- **group_resubscribe**: Recipient resubscribed to specific group
+
+### Security
+
+For enhanced security, you can:
+1. Enable OAuth authentication by providing `oauth_client_id`, `oauth_client_secret`, and `oauth_token_url`
+2. Enable signature verification using the `signed` field
+3. Use the `public_key` (computed) for webhook payload verification
+
+### References
+
+- [SendGrid Event Webhook Documentation](https://www.twilio.com/docs/sendgrid/api-reference/webhooks/create-an-event-webhook)
+- [Event Webhook Overview](https://www.twilio.com/docs/sendgrid/for-developers/tracking-events/event)
+
