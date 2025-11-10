@@ -1,7 +1,8 @@
 # Basic event webhook configuration
 resource "sendgrid_event_webhook" "basic" {
-  enabled = true
-  url     = "https://api.myapp.com/sendgrid/events"
+  enabled       = true
+  url           = "https://api.myapp.com/sendgrid/events"
+  friendly_name = "Production Event Webhook"
 
   # Basic email events
   delivered   = true

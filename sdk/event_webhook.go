@@ -11,10 +11,11 @@ import (
 type EventWebhook struct { //nolint:maligned
 	Enabled           bool   `json:"enabled"`
 	URL               string `json:"url,omitempty"`
-	GroupResubscribe  bool   `json:"group_resubscribe"` //nolint:tagliatelle
+	FriendlyName      string `json:"friendly_name,omitempty"`       //nolint:tagliatelle
+	GroupResubscribe  bool   `json:"group_resubscribe"`             //nolint:tagliatelle
 	Delivered         bool   `json:"delivered"`
-	GroupUnsubscribe  bool   `json:"group_unsubscribe"` //nolint:tagliatelle
-	SpamReport        bool   `json:"spam_report"`       //nolint:tagliatelle
+	GroupUnsubscribe  bool   `json:"group_unsubscribe"`             //nolint:tagliatelle
+	SpamReport        bool   `json:"spam_report"`                   //nolint:tagliatelle
 	Bounce            bool   `json:"bounce"`
 	Deferred          bool   `json:"deferred"`
 	Unsubscribe       bool   `json:"unsubscribe"`
@@ -57,7 +58,7 @@ func parseEventWebhookSigning(respBody string) (*EventWebhookSigning, RequestErr
 }
 
 // CreateEventWebhook creates an EventWebhook and returns it.
-func (c *Client) PatchEventWebhook(ctx context.Context, enabled bool, url string, groupResubscribe bool, delivered bool, groupUnsubscribe bool, spamReport bool, bounce bool, deferred bool, unsubscribe bool, processed bool, open bool, click bool, dropped bool, oauthClientID string, oauthClientSecret string, oauthTokenURL string) (*EventWebhook, RequestError) {
+func (c *Client) PatchEventWebhook(ctx context.Context, enabled bool, url string, friendlyName string, groupResubscribe bool, delivered bool, groupUnsubscribe bool, spamReport bool, bounce bool, deferred bool, unsubscribe bool, processed bool, open bool, click bool, dropped bool, oauthClientID string, oauthClientSecret string, oauthTokenURL string) (*EventWebhook, RequestError) {
 	if url == "" {
 		return nil, RequestError{
 			StatusCode: http.StatusInternalServerError,
@@ -68,6 +69,7 @@ func (c *Client) PatchEventWebhook(ctx context.Context, enabled bool, url string
 	respBody, statusCode, err := c.Post(ctx, "PATCH", "/user/webhooks/event/settings", EventWebhook{
 		Enabled:           enabled,
 		URL:               url,
+		FriendlyName:      friendlyName,
 		GroupResubscribe:  groupResubscribe,
 		Delivered:         delivered,
 		GroupUnsubscribe:  groupUnsubscribe,
