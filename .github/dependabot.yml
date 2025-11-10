@@ -7,8 +7,6 @@ updates:
     labels:
       - dependencies
       - go
-    reviewers:
-      - "arslanbekov"
   - package-ecosystem: "github-actions"
     directory: "/"
     rebase-strategy: disabled
@@ -17,5 +15,3 @@ updates:
     labels:
       - dependencies
       - github_actions
-    reviewers:
-      - "arslanbekov"
