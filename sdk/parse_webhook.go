@@ -9,10 +9,11 @@ import (
 
 // ParseWebhook is a Sendgrid inbound parse settings.
 type ParseWebhook struct {
-	Hostname  string `json:"hostname,omitempty"`
-	URL       string `json:"url,omitempty"`
-	SpamCheck bool   `json:"spam_check"` //nolint:tagliatelle
-	SendRaw   bool   `json:"send_raw"`   //nolint:tagliatelle
+	Hostname       string `json:"hostname,omitempty"`
+	URL            string `json:"url,omitempty"`
+	SpamCheck      bool   `json:"spam_check"` //nolint:tagliatelle
+	SendRaw        bool   `json:"send_raw"`   //nolint:tagliatelle
+	SecurityPolicy string `json:"security_policy,omitempty"`
 }
 
 func parseParseWebhook(respBody string) (*ParseWebhook, RequestError) {
@@ -34,6 +35,7 @@ func (c *Client) CreateParseWebhook(
 	url string,
 	spamCheck bool,
 	sendRaw bool,
+	securityPolicy string,
 ) (*ParseWebhook, RequestError) {
 	if hostname == "" {
 		return nil, RequestError{
@@ -50,10 +52,11 @@ func (c *Client) CreateParseWebhook(
 	}
 
 	respBody, statusCode, err := c.Post(ctx, "POST", "/user/webhooks/parse/settings", ParseWebhook{
-		Hostname:  hostname,
-		URL:       url,
-		SpamCheck: spamCheck,
-		SendRaw:   sendRaw,
+		Hostname:       hostname,
+		URL:            url,
+		SpamCheck:      spamCheck,
+		SendRaw:        sendRaw,
+		SecurityPolicy: securityPolicy,
 	})
 	if err != nil {
 		return nil, RequestError{
@@ -93,7 +96,7 @@ func (c *Client) ReadParseWebhook(ctx context.Context, hostname string) (*ParseW
 }
 
 // UpdateParseWebhook edits an ParseWebhook and returns it.
-func (c *Client) UpdateParseWebhook(ctx context.Context, hostname string, spamCheck bool, sendRaw bool) RequestError {
+func (c *Client) UpdateParseWebhook(ctx context.Context, hostname string, spamCheck bool, sendRaw bool, securityPolicy string) RequestError {
 	if hostname == "" {
 		return RequestError{
 			StatusCode: http.StatusInternalServerError,
@@ -104,6 +107,7 @@ func (c *Client) UpdateParseWebhook(ctx context.Context, hostname string, spamCh
 	t := ParseWebhook{}
 	t.SpamCheck = spamCheck
 	t.SendRaw = sendRaw
+	t.SecurityPolicy = securityPolicy
 
 	_, _, err := c.Post(ctx, "PUT", "/user/webhooks/parse/settings/"+hostname, t)
 	if err != nil {

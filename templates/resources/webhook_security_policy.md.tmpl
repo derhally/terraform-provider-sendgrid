@@ -1,0 +1,30 @@
+---
+page_title: "{{.Name}} {{.Type}} - {{.ProviderName}}"
+subcategory: ""
+description: |-
+{{ .Description | plainmarkdown | trimspace | prefixlines "  " }}
+---
+
+# {{.Name}} ({{.Type}})
+
+{{ .Description | trimspace }}
+
+**Important Notes:**
+
+- You must configure at least one authentication method: `oauth`, `signature`, or both
+- OAuth configuration requires client credentials and token URL
+- Signature verification generates a public key that can be used to verify webhook payloads
+- Security policies can be attached to parse webhooks via the `webhook_security_policy_id` field
+- Changing `oauth` or `signature` configuration will force recreation of the resource
+
+## Example Usage
+
+{{ tffile "examples/resources/sendgrid_webhook_security_policy/resource.tf" }}
+
+{{ .SchemaMarkdown | trimspace }}
+
+## Import
+
+Import is supported using the following syntax:
+
+{{ codefile "shell" "examples/resources/sendgrid_webhook_security_policy/import.sh" }}

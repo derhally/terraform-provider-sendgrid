@@ -37,6 +37,16 @@ func resourceSendgridParseWebhook() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
+		CustomizeDiff: func(ctx context.Context, diff *schema.ResourceDiff, meta interface{}) error {
+			if diff.HasChange("webhook_security_policy_id") {
+				old, new := diff.GetChange("webhook_security_policy_id")
+				if old.(string) != "" && new.(string) == "" {
+					return nil
+				}
+			}
+			return nil
+		},
+
 		Schema: map[string]*schema.Schema{
 			"hostname": {
 				Type: schema.TypeString,
@@ -66,6 +76,12 @@ func resourceSendgridParseWebhook() *schema.Resource {
 					"When this parameter is set to \"true\", SendGrid will send a JSON payload of the content of your email.",
 				Optional: true,
 			},
+			"webhook_security_policy_id": {
+				Type: schema.TypeString,
+				Description: "The ID of the webhook security policy to apply to this parse webhook. " +
+					"See the `sendgrid_webhook_security_policy` resource for more details.",
+				Optional: true,
+			},
 		},
 	}
 }
@@ -77,9 +93,10 @@ func resourceSendgridParseWebhookCreate(ctx context.Context, d *schema.ResourceD
 	url := d.Get("url").(string)
 	spamCheck := d.Get("spam_check").(bool)
 	sendRaw := d.Get("send_raw").(bool)
+	securityPolicy := d.Get("webhook_security_policy_id").(string)
 
 	parseWebhookStruct, err := sendgrid.RetryOnRateLimit(ctx, d, func() (interface{}, sendgrid.RequestError) {
-		return c.CreateParseWebhook(ctx, hostname, url, spamCheck, sendRaw)
+		return c.CreateParseWebhook(ctx, hostname, url, spamCheck, sendRaw, securityPolicy)
 	})
 
 	webhook := parseWebhookStruct.(*sendgrid.ParseWebhook)
@@ -109,6 +126,8 @@ func resourceSendgridParseWebhookRead(ctx context.Context, d *schema.ResourceDat
 	d.Set("spam_check", webhook.SpamCheck)
 	//nolint:errcheck
 	d.Set("send_raw", webhook.SendRaw)
+	//nolint:errcheck
+	d.Set("webhook_security_policy_id", webhook.SecurityPolicy)
 
 	return nil
 }
@@ -118,9 +137,10 @@ func resourceSendgridParseWebhookUpdate(ctx context.Context, d *schema.ResourceD
 
 	spamCheck := d.Get("spam_check").(bool)
 	sendRaw := d.Get("send_raw").(bool)
+	securityPolicy := d.Get("webhook_security_policy_id").(string)
 
 	_, err := sendgrid.RetryOnRateLimit(ctx, d, func() (interface{}, sendgrid.RequestError) {
-		return nil, c.UpdateParseWebhook(ctx, d.Id(), spamCheck, sendRaw)
+		return nil, c.UpdateParseWebhook(ctx, d.Id(), spamCheck, sendRaw, securityPolicy)
 	})
 	if err != nil {
 		return diag.FromErr(err)
@@ -131,6 +151,19 @@ func resourceSendgridParseWebhookUpdate(ctx context.Context, d *schema.ResourceD
 
 func resourceSendgridParseWebhookDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*sendgrid.Client)
+
+	if securityPolicyId := d.Get("webhook_security_policy_id").(string); securityPolicyId != "" {
+		spamCheck := d.Get("spam_check").(bool)
+		sendRaw := d.Get("send_raw").(bool)
+
+		_, updateErr := sendgrid.RetryOnRateLimit(ctx, d, func() (interface{}, sendgrid.RequestError) {
+			return nil, c.UpdateParseWebhook(ctx, d.Id(), spamCheck, sendRaw, "")
+		})
+
+		if updateErr != nil {
+			return diag.FromErr(updateErr)
+		}
+	}
 
 	_, err := sendgrid.RetryOnRateLimit(ctx, d, func() (interface{}, sendgrid.RequestError) {
 		return c.DeleteParseWebhook(ctx, d.Id())
