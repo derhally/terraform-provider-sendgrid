@@ -1,0 +1,63 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code
+*.go text eol=lf
+*.tf text eol=lf
+*.hcl text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# Scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# YAML/JSON
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+# Makefiles
+Makefile text eol=lf
+GNUmakefile text eol=lf
+
+# Git config files
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.gitmodules text eol=lf
+
+# GitHub config
+.github/** text eol=lf
+
+# Templates
+*.tmpl text eol=lf
+*.tpl text eol=lf
+
+# Binary files
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.a binary
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.tgz binary
+*.jar binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+
+# Exclude files from export
+.github export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore

@@ -1,0 +1,182 @@
+# GitHub Labels Configuration
+# This file defines all labels used in the repository
+
+# Type labels
+- name: "bug"
+  color: "d73a4a"
+  description: "Something isn't working"
+
+- name: "enhancement"
+  color: "a2eeef"
+  description: "New feature or request"
+
+- name: "documentation"
+  color: "0075ca"
+  description: "Improvements or additions to documentation"
+
+- name: "question"
+  color: "d876e3"
+  description: "Further information is requested"
+
+# Status labels
+- name: "needs-triage"
+  color: "fbca04"
+  description: "Needs initial review and categorization"
+
+- name: "needs-investigation"
+  color: "fef2c0"
+  description: "Requires further investigation"
+
+- name: "needs-reproduction"
+  color: "fef2c0"
+  description: "Needs steps to reproduce the issue"
+
+- name: "confirmed"
+  color: "0e8a16"
+  description: "Issue has been confirmed and reproduced"
+
+- name: "in-progress"
+  color: "c5def5"
+  description: "Work is in progress"
+
+- name: "blocked"
+  color: "b60205"
+  description: "Blocked by external dependency or another issue"
+
+- name: "wontfix"
+  color: "ffffff"
+  description: "This will not be worked on"
+
+- name: "duplicate"
+  color: "cfd3d7"
+  description: "This issue or pull request already exists"
+
+- name: "stale"
+  color: "e4e669"
+  description: "No recent activity"
+
+# Priority labels
+- name: "priority:critical"
+  color: "b60205"
+  description: "Critical priority - needs immediate attention"
+
+- name: "priority:high"
+  color: "d93f0b"
+  description: "High priority"
+
+- name: "priority:medium"
+  color: "fbca04"
+  description: "Medium priority"
+
+- name: "priority:low"
+  color: "0e8a16"
+  description: "Low priority"
+
+# Size labels
+- name: "size:xs"
+  color: "c2e0c6"
+  description: "Extra small change"
+
+- name: "size:s"
+  color: "bfe5bf"
+  description: "Small change"
+
+- name: "size:m"
+  color: "fef2c0"
+  description: "Medium change"
+
+- name: "size:l"
+  color: "fbca04"
+  description: "Large change"
+
+- name: "size:xl"
+  color: "d93f0b"
+  description: "Extra large change"
+
+# Component labels
+- name: "resource"
+  color: "1d76db"
+  description: "Related to Terraform resources"
+
+- name: "data-source"
+  color: "5319e7"
+  description: "Related to Terraform data sources"
+
+- name: "provider"
+  color: "0366d6"
+  description: "Related to provider configuration"
+
+- name: "testing"
+  color: "bfd4f2"
+  description: "Related to tests"
+
+- name: "ci/cd"
+  color: "006b75"
+  description: "Related to CI/CD pipelines"
+
+# Help labels
+- name: "good-first-issue"
+  color: "7057ff"
+  description: "Good for newcomers"
+
+- name: "help-wanted"
+  color: "008672"
+  description: "Extra attention is needed"
+
+# Special labels
+- name: "breaking-change"
+  color: "b60205"
+  description: "Introduces breaking changes"
+
+- name: "security"
+  color: "ee0701"
+  description: "Security related issue"
+
+- name: "dependencies"
+  color: "0366d6"
+  description: "Pull requests that update a dependency file"
+
+- name: "go"
+  color: "00add8"
+  description: "Related to Go code"
+
+- name: "github_actions"
+  color: "000000"
+  description: "Related to GitHub Actions"
+
+- name: "pinned"
+  color: "d4c5f9"
+  description: "Pinned issue - will not be marked as stale"
+
+- name: "work-in-progress"
+  color: "d4c5f9"
+  description: "Work in progress - not ready for review"
+
+# Resource-specific labels
+- name: "sendgrid:api-key"
+  color: "c5def5"
+  description: "Related to API key resource"
+
+- name: "sendgrid:teammate"
+  color: "c5def5"
+  description: "Related to teammate resource"
+
+- name: "sendgrid:template"
+  color: "c5def5"
+  description: "Related to template resources"
+
+- name: "sendgrid:webhook"
+  color: "c5def5"
+  description: "Related to webhook resources"
+
+- name: "sendgrid:domain"
+  color: "c5def5"
+  description: "Related to domain authentication"
+
+- name: "sendgrid:sso"
+  color: "c5def5"
+  description: "Related to SSO resources"
+
+- name: "sendgrid:subuser"
+  color: "c5def5"
+  description: "Related to subuser resource"

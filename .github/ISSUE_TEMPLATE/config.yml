@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/arslanbekov/terraform-provider-sendgrid/discussions
+    about: Ask questions, share ideas, and engage with the community
+  - name: Documentation
+    url: https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/RESOURCES.md
+    about: Read the documentation for resources and examples
+  - name: Security Vulnerability
+    url: https://github.com/arslanbekov/terraform-provider-sendgrid/security/advisories/new
+    about: Report security vulnerabilities privately
+  - name: SendGrid API Documentation
+    url: https://www.twilio.com/docs/sendgrid/api-reference
+    about: Official SendGrid API documentation

@@ -1,34 +1,68 @@
+# Binaries for programs and plugins
 *.dll
 *.exe
+*.exe~
+*.so
+*.dylib
+terraform-provider-sendgrid
+terraform-provider-sendgrid-*
+terraform
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+coverage.txt
+coverage-acceptance.txt
+coverage.html
+coverage.out
+
+# Crash log files
+crash.log
+
+# IDE
 .DS_Store
-example.tf
-terraform.tfplan
-bin/
-dist/
-.vagrant/
-*.backup
-*.tfstate
-*.tfstate.*
-**/.terraform/*
-*.log
-*.bak
-*~
-.*.swp
 .idea
 .vscode
-terraform-provider-sendgrid
+*.swp
+*.swo
+*~
+.*.swp
+
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.backup
+**/.terraform/*
+.terraform.lock.hcl
+terraform.tfplan
+terraform.tfvars
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
 .terraformrc
 terraform.rc
-terraform
-scripts/gendocs
-terraform-provider-sendgrid-*
+example.tf
 
-# Coverage files
-coverage.txt
-coverage-acceptance.txt
-coverage.html
-coverage.out
+# Build artifacts
+bin/
+dist/
+scripts/gendocs
+
+# Vagrant
+.vagrant/
+
+# Logs
+*.log
+
+# OS-specific
+Thumbs.db
+.DS_Store
+
+# Sensitive data
+*.pem
+*.key
+.env
+.env.local

@@ -1,0 +1,170 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below to help us investigate and fix the issue.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting
+      options:
+        - label: I have searched existing issues to ensure this bug has not been reported before
+          required: true
+        - label: I have read the [troubleshooting guide](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/troubleshooting.md)
+          required: true
+        - label: I am using a supported version of the provider (v2.x)
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: Describe the bug...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Describe what should happen...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: Describe what actually happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Provide detailed steps to reproduce the issue
+      placeholder: |
+        1. Configure the following...
+        2. Run terraform apply...
+        3. Observe error...
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: terraform-config
+    attributes:
+      label: Terraform Configuration
+      description: Provide the relevant Terraform configuration (remove sensitive data)
+      placeholder: |
+        resource "sendgrid_teammate" "example" {
+          email    = "user@example.com"
+          is_admin = false
+          scopes   = ["mail.send"]
+        }
+      render: hcl
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Messages and Logs
+      description: Provide any error messages or relevant logs
+      placeholder: Paste error messages or logs here...
+      render: shell
+    validations:
+      required: false
+
+  - type: input
+    id: provider-version
+    attributes:
+      label: Provider Version
+      description: What version of the provider are you using?
+      placeholder: e.g., 2.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: terraform-version
+    attributes:
+      label: Terraform Version
+      description: What version of Terraform are you using?
+      placeholder: e.g., 1.5.0
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: What operating system are you using?
+      placeholder: e.g., macOS 13.0, Ubuntu 22.04, Windows 11
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-resource
+    attributes:
+      label: Affected Resource(s)
+      description: Which resource(s) are affected?
+      multiple: true
+      options:
+        - sendgrid_api_key
+        - sendgrid_domain_authentication
+        - sendgrid_event_webhook
+        - sendgrid_link_branding
+        - sendgrid_parse_webhook
+        - sendgrid_sso_certificate
+        - sendgrid_sso_integration
+        - sendgrid_subuser
+        - sendgrid_teammate
+        - sendgrid_template
+        - sendgrid_template_version
+        - sendgrid_unsubscribe_group
+        - sendgrid_webhook_security_policy
+        - Data Source
+        - Provider Configuration
+        - Other
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem
+      placeholder: Any additional information that might be helpful...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: workaround
+    attributes:
+      label: Workaround
+      description: Have you found a workaround?
+      options:
+        - label: I have found a workaround (please describe in Additional Context)
+          required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to related issues, PRs, or documentation
+      placeholder: |
+        - Related Issue #123
+        - SendGrid API Docs: https://...
+    validations:
+      required: false

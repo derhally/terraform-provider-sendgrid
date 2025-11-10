@@ -51,15 +51,15 @@ terraform init && terraform apply
 
 ## Documentation
 
-| Topic | Description |
-| ----- | ----------- |
-| [Installation](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/INSTALLATION.md) | Installation methods and requirements |
-| [Authentication](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/AUTHENTICATION.md) | All authentication methods and security best practices |
-| [Resources](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/RESOURCES.md) | Complete list of resources and data sources |
-| [Troubleshooting](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/troubleshooting.md) | Common issues and solutions |
-| [Rate Limiting](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/rate_limiting.md) | Rate limiting handling and best practices |
-| [Migration Guide](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/MIGRATION_GUIDE.md) | Guide for migrating between major versions |
-| [Testing Guide](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/TESTING.md) | How to run and write tests |
+| Topic                                                                                                             | Description                                            |
+| ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| [Installation](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/INSTALLATION.md)       | Installation methods and requirements                  |
+| [Authentication](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/AUTHENTICATION.md)   | All authentication methods and security best practices |
+| [Resources](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/RESOURCES.md)             | Complete list of resources and data sources            |
+| [Troubleshooting](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/troubleshooting.md) | Common issues and solutions                            |
+| [Rate Limiting](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/docs/rate_limiting.md)     | Rate limiting handling and best practices              |
+| [Migration Guide](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/MIGRATION_GUIDE.md)      | Guide for migrating between major versions             |
+| [Testing Guide](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/TESTING.md)                | How to run and write tests                             |
 
 ## Popular Use Cases
 
@@ -121,13 +121,20 @@ See [TESTING.md](TESTING.md) for detailed testing instructions.
 
 ### Contributing
 
-Contributions are welcome! Please:
+Contributions are welcome! We'd love your help improving this provider.
+
+**Before contributing:**
+
+- Read our [Contributing Guide](CONTRIBUTING.md)
+- Review the [Code of Conduct](CODE_OF_CONDUCT.md)
+
+**Quick start:**
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Add tests for your changes
 4. Run `make fmt` and `make lint`
-5. Commit your changes with clear messages
+5. Commit your changes with clear messages ([Conventional Commits](https://www.conventionalcommits.org/))
 6. Push to your branch and create a Pull Request
 
 For significant changes, please open an issue first to discuss the proposed changes.
@@ -135,6 +142,10 @@ For significant changes, please open an issue first to discuss the proposed chan
 ## License
 
 This project is licensed under the [Mozilla Public License 2.0](LICENSE).
+
+## Support
+
+For support options, see our [Support Guide](.github/SUPPORT.md).
 
 ---
 
