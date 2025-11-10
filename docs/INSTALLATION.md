@@ -4,8 +4,8 @@ This guide covers all methods to install the SendGrid Terraform provider.
 
 ## Requirements
 
-- **Terraform**: 0.13+ (recommended: latest stable)
-- **Go**: 1.21+ (for building from source)
+- **Terraform**: 0.13+ (recommended: 1.0+)
+- **Go**: 1.24+ (for building from source)
 - **SendGrid Account**: With API key access
 
 ## Method 1: Terraform Registry (Recommended)
@@ -70,7 +70,7 @@ chmod +x ~/.terraform.d/plugins/terraform-provider-sendgrid
 ### Prerequisites
 
 ```bash
-# Install Go 1.19+
+# Install Go 1.24+
 go version
 
 # Clone repository
@@ -235,8 +235,8 @@ ls -la ~/.terraform.d/plugins/registry.terraform.io/arslanbekov/sendgrid/
 After installation:
 
 1. [Set up Authentication](AUTHENTICATION.md)
-2. [Check Examples](EXAMPLES.md)
-3. [Browse Resources](RESOURCES.md)
+2. [Browse Resources](RESOURCES.md)
+3. [Check Examples in Resources](RESOURCES.md)
 
 ## Need Help?
 

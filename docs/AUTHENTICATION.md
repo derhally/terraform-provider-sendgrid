@@ -431,9 +431,9 @@ terraform apply -var="sendgrid_api_key=SG.your-key"
 
 After setting up authentication:
 
-1. [Check Examples](EXAMPLES.md)
-2. [Browse Resources](RESOURCES.md)
-3. [Troubleshooting Guide](TROUBLESHOOTING.md)
+1. [Browse Resources](RESOURCES.md)
+2. [Check Examples in Resources](RESOURCES.md)
+3. [Troubleshooting Guide](troubleshooting.md)
 
 ## Need Help?
 
