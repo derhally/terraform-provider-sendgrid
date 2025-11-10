@@ -1,38 +1,5 @@
 package sendgrid
 
-/*
-Provide a resource to manage webhook security policy settings.
-
-- you need either an `oauth` block or a `signature` block, or both.
-
-When using `signature`, the `public_key` attribute is computed and can be optionally set to import an existing key.
-
-i.e. `sendgrid_webhook_security_policy.default.signature[0].public_key`
-
-Example Usage
-```hcl
-
-	resource "sendgrid_webhook_security_policy" "default" {
-		name = "My Security Policy"
-
-  		oauth {
-  		  client_id     = "client_456"
-  		  client_secret = "secret"
-  		  token_url     = "http://oauth.example.com/user/456/token"
-  		  scopes        = ["webhooks:read", "webhooks:write"]
-  		}
-
-		signature {
-		  enabled = true
-		}
-	}
-```
-Import
-A webhook security policy can be imported, e.g.
-```hcl
-$ terraform import sendgrid_webhook_security_policy.default id
-```
-*/
 
 import (
 	"context"
@@ -44,6 +11,7 @@ import (
 
 func resourceSendgridWebhookSecurityPolicy() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Manages a SendGrid webhook security policy. Security policies provide authentication mechanisms for webhooks, including OAuth and signature verification.",
 		CreateContext: resourceSendgridWebhookSecurityPolicyCreate,
 		ReadContext:   resourceSendgridWebhookSecurityPolicyRead,
 		UpdateContext: resourceSendgridWebhookSecurityPolicyUpdate,

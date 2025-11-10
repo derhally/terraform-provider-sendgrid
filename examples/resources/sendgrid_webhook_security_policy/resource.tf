@@ -4,7 +4,7 @@ resource "sendgrid_webhook_security_policy" "oauth_only" {
 
   oauth {
     client_id     = "my-client-id"
-    client_secret = var.oauth_client_secret
+    client_secret = "my-client-secret"
     token_url     = "https://oauth.example.com/token"
     scopes        = ["webhooks:read", "webhooks:write"]
   }
@@ -19,13 +19,19 @@ resource "sendgrid_webhook_security_policy" "signature_only" {
   }
 }
 
+# The public key can be referenced for verification
+output "public_key" {
+  value     = sendgrid_webhook_security_policy.signature_only.signature[0].public_key
+  sensitive = true
+}
+
 # Combined OAuth and Signature security policy
-resource "sendgrid_webhook_security_policy" "combined" {
+resource "sendgrid_webhook_security_policy" "both" {
   name = "Combined Security Policy"
 
   oauth {
     client_id     = "my-client-id"
-    client_secret = var.oauth_client_secret
+    client_secret = "my-client-secret"
     token_url     = "https://oauth.example.com/token"
     scopes        = ["webhooks:read", "webhooks:write"]
   }
@@ -35,16 +41,19 @@ resource "sendgrid_webhook_security_policy" "combined" {
   }
 }
 
-# Output the public key for signature verification
-output "signature_public_key" {
-  description = "Public key for webhook signature verification"
-  value       = sendgrid_webhook_security_policy.signature_only.signature[0].public_key
-  sensitive   = true
+# Attached to Parse Webhook
+resource "sendgrid_webhook_security_policy" "parse_security" {
+  name = "Parse Webhook Security"
+
+  signature {
+    enabled = true
+  }
 }
 
-output "combined_public_key" {
-  description = "Public key for combined policy signature verification"
-  value       = sendgrid_webhook_security_policy.combined.signature[0].public_key
-  sensitive   = true
+resource "sendgrid_parse_webhook" "example" {
+  hostname                   = "parse.example.com"
+  url                        = "https://api.example.com/parse"
+  spam_check                 = true
+  send_raw                   = false
+  webhook_security_policy_id = sendgrid_webhook_security_policy.parse_security.id
 }
-
