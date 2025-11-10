@@ -3,16 +3,20 @@
 [![Build Status](https://github.com/arslanbekov/terraform-provider-sendgrid/workflows/Tests/badge.svg)](https://github.com/arslanbekov/terraform-provider-sendgrid/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/arslanbekov/terraform-provider-sendgrid)](https://goreportcard.com/report/github.com/arslanbekov/terraform-provider-sendgrid)
 [![codecov](https://codecov.io/gh/arslanbekov/terraform-provider-sendgrid/branch/master/graph/badge.svg)](https://codecov.io/gh/arslanbekov/terraform-provider-sendgrid)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/arslanbekov/terraform-provider-sendgrid)](https://github.com/arslanbekov/terraform-provider-sendgrid/blob/master/go.mod)
+[![License](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](https://opensource.org/licenses/MPL-2.0)
 
-A comprehensive Terraform provider for managing SendGrid resources.
+A comprehensive Terraform provider for managing SendGrid resources with enhanced features and reliability.
 
 ## Key Features
 
-- **Advanced Rate Limiting** - Built-in exponential backoff and retry logic
-- **Teammate Management** - Complete lifecycle management, including pending invitations
-- **Template Management** - Full template and version control
-- **Multiple Auth Methods** - Environment variables, Terraform variables, and more
-- **Rich Documentation** - Extensive examples and troubleshooting guides
+- **Advanced Rate Limiting** - Built-in exponential backoff and retry logic for reliable operations
+- **Teammate Management** - Complete lifecycle management, including pending invitations and SSO support
+- **Template Management** - Full template and version control with dynamic content
+- **Webhook Security** - OAuth and signature verification for parse webhooks
+- **Event Webhooks** - Real-time email event notifications with friendly names
+- **Multiple Auth Methods** - Environment variables, Terraform variables, and CI/CD integration
+- **Rich Documentation** - Extensive examples, troubleshooting guides, and API references
 
 ## Quick Start
 
@@ -47,14 +51,14 @@ terraform init && terraform apply
 
 ## Documentation
 
-| Topic                                      | Description                                            |
-| ------------------------------------------ | ------------------------------------------------------ |
-| [Installation](docs/INSTALLATION.md)       | Installation methods and requirements                  |
-| [Authentication](docs/AUTHENTICATION.md)   | All authentication methods and security best practices |
-| [Resources](docs/RESOURCES.md)             | Complete list of resources and data sources            |
-| [Examples](docs/EXAMPLES.md)               | Practical usage examples and patterns                  |
-| [Troubleshooting](docs/TROUBLESHOOTING.md) | Common issues and solutions                            |
-| [Contributing](docs/CONTRIBUTING.md)       | Development setup and contribution guidelines          |
+| Topic                                        | Description                                            |
+| -------------------------------------------- | ------------------------------------------------------ |
+| [Installation](docs/INSTALLATION.md)         | Installation methods and requirements                  |
+| [Authentication](docs/AUTHENTICATION.md)     | All authentication methods and security best practices |
+| [Resources](docs/RESOURCES.md)               | Complete list of resources and data sources            |
+| [Troubleshooting](docs/troubleshooting.md)   | Common issues and solutions                            |
+| [Rate Limiting](docs/rate_limiting.md)       | Rate limiting handling and best practices              |
+| [Migration Guide](MIGRATION_GUIDE.md)        | Guide for migrating between major versions             |
 
 ## Popular Use Cases
 
@@ -64,13 +68,68 @@ terraform init && terraform apply
 - **Domain Setup**: Configure domain authentication and link branding
 - **Webhook Configuration**: Set up event and parse webhooks
 
+## Supported Resources
+
+- **Teammate Management**: `sendgrid_teammate` - Manage team members and permissions
+- **Templates**: `sendgrid_template`, `sendgrid_template_version` - Email template management
+- **API Keys**: `sendgrid_api_key` - Scoped API key management
+- **Domain Configuration**: `sendgrid_domain_authentication`, `sendgrid_link_branding` - Domain setup
+- **Webhooks**: `sendgrid_event_webhook`, `sendgrid_parse_webhook`, `sendgrid_webhook_security_policy` - Webhook configuration
+- **SSO**: `sendgrid_sso_integration`, `sendgrid_sso_certificate` - Single Sign-On setup
+- **Subusers**: `sendgrid_subuser` - Subuser account management
+- **Unsubscribe Groups**: `sendgrid_unsubscribe_group` - Manage unsubscribe groups
+
+See [full documentation](docs/RESOURCES.md) for details.
+
 ## Quick Links
 
 - [Terraform Registry](https://registry.terraform.io/providers/arslanbekov/sendgrid)
 - [Report Issues](https://github.com/arslanbekov/terraform-provider-sendgrid/issues)
 - [Discussions](https://github.com/arslanbekov/terraform-provider-sendgrid/discussions)
-- [Changelog](CHANGELOG.md)
-- [Migration Guide](MIGRATION_GUIDE.md)
+- [SendGrid API Documentation](https://www.twilio.com/docs/sendgrid/api-reference)
+
+## Development
+
+### Requirements
+
+- [Go](https://golang.org/doc/install) 1.24+ (see [.github/workflows/test.yml](.github/workflows/test.yml))
+- [Terraform](https://www.terraform.io/downloads.html) 1.0+
+- SendGrid API key with appropriate permissions
+
+### Building
+
+```bash
+go build -o terraform-provider-sendgrid
+```
+
+### Testing
+
+The provider includes both unit tests and acceptance tests:
+
+```bash
+# Run unit tests
+make test
+
+# Run acceptance tests (requires SENDGRID_API_KEY)
+make testacc
+```
+
+**Note**: Test coverage is primarily achieved through acceptance tests against the real SendGrid API. Current coverage: ~44% (standard for Terraform providers with external API dependencies).
+
+See [TESTING.md](TESTING.md) for detailed testing instructions.
+
+### Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Add tests for your changes
+4. Run `make fmt` and `make lint`
+5. Commit your changes with clear messages
+6. Push to your branch and create a Pull Request
+
+For significant changes, please open an issue first to discuss the proposed changes.
 
 ## License
 
